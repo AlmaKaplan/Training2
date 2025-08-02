@@ -1,7 +1,6 @@
 
 package frc.robot.Subsystem.Intake;
 
-import com.MAutils.DashBoard.DashBoard;
 import com.MAutils.DashBoard.DashBoardTab;
 import com.MAutils.Logger.MALog;
 import com.ctre.phoenix6.BaseStatusSignal;
@@ -91,7 +90,7 @@ public class Intake extends SubsystemBase {
   }
 
   public double getVelocity() {
-    return (leftVelocity.getValueAsDouble()+rightVelocity.getValueAsDouble())/2;
+    return (leftVelocity.getValueAsDouble()+rightVelocity.getValueAsDouble())/2*60; // to rpm
   }
 
   public double getAvrageCurrent() {
