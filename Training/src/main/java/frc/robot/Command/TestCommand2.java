@@ -15,7 +15,7 @@ public class TestCommand2 extends SequentialCommandGroup {
       waitUntil(() -> Intake.getInstance().getAvrageVolts() > 3.5),
       runOnce(() -> System.out.println("3.5 Passed")),
       waitUntil(() -> Intake.getInstance().getVelocity() >= 1200),
-      new setVoltageCommand(4, 4)
+      new setVoltageCommand(4, 4, true)
       );
   }
 }

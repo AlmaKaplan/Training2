@@ -13,6 +13,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase {
@@ -37,6 +38,8 @@ public class Intake extends SubsystemBase {
 
   private double num;
 
+  private DigitalInput digitalInput;
+
   private Intake() {
     rightMotor = new TalonFX(IntakeConstants.RIGHT_MOTOR_ID);
     leftMotor = new TalonFX(IntakeConstants.LEFT_MOTOR_ID);
@@ -57,6 +60,8 @@ public class Intake extends SubsystemBase {
 
     num = 1;
 
+    digitalInput = new DigitalInput(0);
+
     rightMotorConfig();
     leftMotorConfig();
   }
@@ -65,7 +70,7 @@ public class Intake extends SubsystemBase {
     rightConfig.Feedback.RotorToSensorRatio = IntakeConstants.GEAR;
 
     rightConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
-    rightConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    rightConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
     rightMotor.getConfigurator().apply(rightConfig);
   }
@@ -79,6 +84,10 @@ public class Intake extends SubsystemBase {
     leftMotor.getConfigurator().apply(leftConfig);
   }
 
+  public boolean getSensor() {
+    return digitalInput.get();
+  }
+
   public void setVoltage(double volt) {
     leftMotor.setVoltage(volt*num);
     rightMotor.setVoltage(volt*num);
@@ -89,8 +98,24 @@ public class Intake extends SubsystemBase {
     rightMotor.setVoltage(0);
   }
 
+  public void setVoltageLeft(double volt) {
+    leftMotor.setVoltage(volt);
+  }
+
+  public void setVoltageRight(double volt) {
+    rightMotor.setVoltage(volt);
+  }
+
   public double getVelocity() {
     return (leftVelocity.getValueAsDouble()+rightVelocity.getValueAsDouble())/2*60; // to rpm
+  }
+
+  public double getLeftVelocity() {
+    return (leftVelocity.getValueAsDouble())*60; // to rpm
+  }
+
+  public double getRightVelocity() {
+    return (rightVelocity.getValueAsDouble())*60; // to rpm
   }
 
   public double getAvrageCurrent() {

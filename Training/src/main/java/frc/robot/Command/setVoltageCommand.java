@@ -10,14 +10,16 @@ public class setVoltageCommand extends Command {
   private double volts;
   private Timer timer;
   private double time;
+  private boolean DoIWantTimer;
 
-  public setVoltageCommand(double volts, double time) {
+  public setVoltageCommand(double volts, double time, boolean DoIWantTimer) {
     addRequirements(Intake.getInstance());
 
     timer = new Timer();
 
     this.volts = volts;
     this.time = time;
+    this.DoIWantTimer = DoIWantTimer;
   }
 
   @Override
@@ -37,10 +39,12 @@ public class setVoltageCommand extends Command {
 
   @Override
   public boolean isFinished() {
-
-    if (timer.get() >= time) {
-      return true;
+    if (DoIWantTimer) {
+      if (timer.get() >= time) {
+        return true;
+      }
     }
+    
     return false;
   }
 }

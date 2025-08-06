@@ -13,9 +13,9 @@ public class TestCommand extends SequentialCommandGroup {
     addCommands(
       new WaitCommand(3),
       runOnce(() -> System.out.println("Start")),
-      new setVoltageCommand(4, 3),
+      new setVoltageCommand(4, 3, true),
       runOnce(() -> System.out.println("Stage Two")),
-      new setVoltageCommand(2, 2),
+      new setVoltageCommand(2, 2, true),
       runOnce(() -> System.out.println("end"))
       );
   }
